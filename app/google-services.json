@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "207708944964",
+    "firebase_url": "https://cotton-7dcd7.firebaseio.com",
+    "project_id": "cotton-7dcd7",
+    "storage_bucket": "cotton-7dcd7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207708944964:android:80564e522e99ca33",
+        "android_client_info": {
+          "package_name": "com.cotton.cotton"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "207708944964-qned8ff0vrgcooagqai3qkcfg8gcettu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cotton.cotton",
+            "certificate_hash": "55730896ec764da993a97db3fb0a749f63df5557"
+          }
+        },
+        {
+          "client_id": "207708944964-u97rfm8n96de6i5c9vsmrt29cg44q71q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpAtKW-WyzCkVqUNSwI4-0nd3HJqQqZp4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "207708944964-u97rfm8n96de6i5c9vsmrt29cg44q71q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
