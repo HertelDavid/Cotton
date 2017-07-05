@@ -1,5 +1,6 @@
 package com.cotton.cotton;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
+import com.cotton.cotton.Activity.CottonHomeActivity;
 import com.cotton.cotton.Activity.CottonRegisterActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,6 +27,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authStateListener;
+
+    private ProgressDialog progress;
 
     @Override
     public void onCreate(Bundle savedInstance){
@@ -56,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.activity_login_signin_button)
     public void loginUser(View v){
 
-        confirmCredentials(usernameEditText.getText().toString(), passwordEditText.getText().toString());
+        confirmCredentials(usernameEditText.getText().toString().trim(), passwordEditText.getText().toString().trim());
     }
 
     @OnClick(R.id.activity_login_register_button)
@@ -76,33 +80,44 @@ public class LoginActivity extends AppCompatActivity {
 
     private void confirmCredentials(String username, String password){
 
-        System.out.println(username);
-        System.out.println(password);
+        if(!username.equals("") && !password.equals("")){
 
-        auth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            showProgressDialog();
 
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+            auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
-                if(task.isSuccessful()){
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
 
-                    System.out.println("Yes, the registration was successful");
-                }else{
+                    if(task.isSuccessful()){
 
-                    System.out.println("No, the registration was not successful");
+                        loginSuccess();
+
+                    }else{
+
+                        loginFailed();
+                    }
+
+                    stopProgressDialog();
                 }
-            }
-        });
+            });
+
+        }else{
+
+            usernameEditText.setError("Your email or password is empty");
+        }
     }
 
     private void loginFailed(){
-
 
     }
 
     private void loginSuccess(){
 
+        Intent loginSuccessIntent = new Intent();
+        loginSuccessIntent.setClass(this, CottonHomeActivity.class);
 
+        startActivity(loginSuccessIntent);
     }
 
     private void initFirebaseAuth(){
@@ -129,5 +144,18 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
+    }
+
+    private void showProgressDialog(){
+
+        progress = new ProgressDialog(this, R.style.DialogCustomTheme);
+        progress.setCancelable(false);
+        progress.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+        progress.show();
+    }
+
+    private void stopProgressDialog(){
+
+        this.progress.cancel();
     }
 }

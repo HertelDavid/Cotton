@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "207708944964-mr59disq6ivnla2svcvklv6klgujel25.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cotton.cotton",
+            "certificate_hash": "6cda3dac8bbe4ae23f79b98121987579627e0bb4"
+          }
+        },
+        {
           "client_id": "207708944964-qned8ff0vrgcooagqai3qkcfg8gcettu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

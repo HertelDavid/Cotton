@@ -10,8 +10,13 @@
     <string name="activity_login_forgot_info_string"><u>Forgot your information? No problem, Click Here!</u></string>
 
     <!-- activity_register strings -->
+    <string name="activity_register_header_text">Register for Cotton!</string>
+    <string name="activity_register_email_hint">Email</string>
+    <string name="activity_register_username_input_header">A unique username that represents you. Cotton will address you by this name.</string>
     <string name="activity_register_username_hint">Username</string>
     <string name="activity_register_password_hint">Password</string>
+    <string name="activity_register_password_input_header">A password that contains a number and a unique character</string>
     <string name="activity_register_password_confirm_hint">Confirm Password</string>
+    <string name="activity_register_button_text">Register</string>
 
 </resources>
