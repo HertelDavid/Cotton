@@ -1,5 +1,6 @@
 package com.cotton.cotton.Activity;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
+import com.cotton.cotton.Dialog.CottonMessageDialog;
 import com.cotton.cotton.LoginActivity;
 import com.cotton.cotton.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,7 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
-public class CottonRegisterActivity extends AppCompatActivity {
+public class CottonRegisterActivity extends CottonActivity {
 
     @BindView(R.id.activity_register_email_input) EditText emailInput;
     @BindView(R.id.activity_register_username_input) EditText usernameInput;
@@ -53,7 +55,8 @@ public class CottonRegisterActivity extends AppCompatActivity {
                     if(task.isSuccessful()){
 
                         //TODO Show a dialog confirming success of signing up.
-                        returnToLoginActivity();
+                        CottonMessageDialog dialog = CottonMessageDialog.getCottonMessageDialogInstance("Congratulations on registering!");
+                        dialog.show(getFragmentManager(), "REGISTER_ACTIVITY_DIALOG");
 
                     }else{
 

@@ -19,4 +19,6 @@
     <string name="activity_register_password_confirm_hint">Confirm Password</string>
     <string name="activity_register_button_text">Register</string>
 
+    <string name="dialog_cotton_message_button_text">Back to Login!</string>
+
 </resources>

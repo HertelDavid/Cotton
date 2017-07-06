@@ -4,12 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
+import com.cotton.cotton.Activity.CottonActivity;
 import com.cotton.cotton.Activity.CottonHomeActivity;
 import com.cotton.cotton.Activity.CottonRegisterActivity;
+import com.cotton.cotton.Handlers.OnAuthFailListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,15 +21,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends CottonActivity {
 
     @BindView(R.id.activity_login_username) EditText usernameEditText;
     @BindView(R.id.activity_login_password) EditText passwordEditText;
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authStateListener;
-
-    private ProgressDialog progress;
 
     @Override
     public void onCreate(Bundle savedInstance){
@@ -82,23 +81,20 @@ public class LoginActivity extends AppCompatActivity {
 
         if(!username.equals("") && !password.equals("")){
 
-            showProgressDialog();
+            showProgressDialogTitleAndMessage("Loggin In!", "Please wait...");
 
-            auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            auth.signInWithEmailAndPassword(username, password).addOnFailureListener(new OnAuthFailListener(this, this.usernameEditText)).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
-                    if(task.isSuccessful()){
+                    if(task.isSuccessful()) {
 
                         loginSuccess();
 
-                    }else{
-
-                        loginFailed();
                     }
 
-                    stopProgressDialog();
+                    cancelProgressDialog();
                 }
             });
 
@@ -106,10 +102,6 @@ public class LoginActivity extends AppCompatActivity {
 
             usernameEditText.setError("Your email or password is empty");
         }
-    }
-
-    private void loginFailed(){
-
     }
 
     private void loginSuccess(){
@@ -138,24 +130,12 @@ public class LoginActivity extends AppCompatActivity {
 
                 }else{
 
+                    //TODO
                     //User is logged out.
                     //User should not have access to app
                 }
             }
         };
 
-    }
-
-    private void showProgressDialog(){
-
-        progress = new ProgressDialog(this, R.style.DialogCustomTheme);
-        progress.setCancelable(false);
-        progress.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
-        progress.show();
-    }
-
-    private void stopProgressDialog(){
-
-        this.progress.cancel();
     }
 }
