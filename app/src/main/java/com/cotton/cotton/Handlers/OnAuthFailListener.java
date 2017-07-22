@@ -2,52 +2,69 @@ package com.cotton.cotton.Handlers;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuthException;
 
 public class OnAuthFailListener implements OnFailureListener {
 
     private Activity activity;
-    private EditText username;
+    private EditText errorEditText;
 
-    public OnAuthFailListener(Activity activity, EditText username){
+    private static final String TAG = "OnAuthFailListener";
+
+    public OnAuthFailListener(Activity activity, EditText errorEditText){
 
         this.activity = activity;
-        this.username = username;
+        this.errorEditText = errorEditText;
     }
 
     @Override
     public void onFailure(@NonNull Exception e) {
 
-        FirebaseAuthException f = (FirebaseAuthException) e;
+        //TODO Handle non FirebaseAuthExceptions gracefully somehow?
+        //For example, a password that is too short.
 
-        final String errorCode = f.getErrorCode();
-        final String exception = e.getMessage();
+        if(e instanceof FirebaseAuthException){
 
-        activity.runOnUiThread(new Runnable() {
+            FirebaseAuthException f = (FirebaseAuthException) e;
 
-            @Override
-            public void run() {
+            final String errorCode = f.getErrorCode();
+            final String localized = f.getLocalizedMessage();
 
-                handleError();
-            }
+            activity.runOnUiThread(new Runnable() {
 
-            private void handleError(){
+                @Override
+                public void run() {
 
-                switch(errorCode){
-
-                    case "ERROR_USER_NOT_FOUND":
-                        username.setError("User was not found.");
-                        break;
-                    case "ERROR_INVALID_EMAIL":
-                        username.setError("Email is not properly formatted.");
-                        break;
-                    case "ERROR_WRONG_PASSWORD":
-                        username.setError("Username and password combination is incorrect.");
+                    handleError();
                 }
-            }
-        });
+
+                private void handleError(){
+
+                    switch(errorCode){
+
+                        case "ERROR_USER_NOT_FOUND":
+                            errorEditText.setError("User was not found.");
+                            break;
+                        case "ERROR_INVALID_EMAIL":
+                            errorEditText.setError("Email is not properly formatted.");
+                            break;
+                        case "ERROR_WRONG_PASSWORD":
+                            errorEditText.setError("Username and password combination is incorrect.");
+                            break;
+                        case "ERROR_EMAIL_ALREADY_IN_USE":
+                            errorEditText.setError("This email address is already in use.");
+                            break;
+                    }
+                }
+            });
+        }else{
+
+            Log.d(TAG, "createUserWithEmail:failure", e);
+        }
     }
 }

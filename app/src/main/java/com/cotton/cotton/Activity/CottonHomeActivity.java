@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.ButterKnife;
 
-public class CottonHomeActivity extends AppCompatActivity {
+public class CottonHomeActivity extends CottonActivity {
 
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authStateListener;
